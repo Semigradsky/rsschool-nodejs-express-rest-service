@@ -1,9 +1,9 @@
-const router = require('express').Router();
+const router = require('express').Router({ mergeParams: true });
 const Task = require('./task.model');
 const tasksService = require('./task.service');
 
 router
-  .route('/:boardId/tasks')
+  .route('/')
   .get(async (req, res) => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
@@ -19,7 +19,7 @@ router
   });
 
 router
-  .route('/:boardId/tasks/:taskId')
+  .route('/:taskId')
   .get(async (req, res) => {
     const { taskId, boardId } = req.params;
     const task = await tasksService.getById(boardId, taskId);
