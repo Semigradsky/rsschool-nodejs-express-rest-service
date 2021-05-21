@@ -13,6 +13,9 @@
       "impliedStrict": true
     }
   },
+  "ignorePatterns": [
+    "test/**/*.js"
+  ],
   "settings": {
     "noInlineConfig": true
   },
