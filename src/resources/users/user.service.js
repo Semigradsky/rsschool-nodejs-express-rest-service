@@ -2,14 +2,50 @@ const repository = require('./user.memory.repository');
 const boardService = require('../boards/board.service');
 const taskService = require('../tasks/task.service');
 
-const getAll = () => repository.getAll();
+/**
+ * An user
+ * @typedef {Object} User
+ * @property {string} id - User ID
+ * @property {string} name - User name
+ * @property {string} login - User login
+ * @property {string} password - User password
+ */
 
-const getById = (userId) => repository.getById(userId);
+/** @module user.service */
 
-const create = (user) => repository.create(user.id, user);
+/**
+ * Get all users
+ * @returns {Promise<User[]>} - Array of all users
+ */
+const getAll = async () => repository.getAll();
 
-const update = (userId, data) => repository.update(userId, data);
+/**
+ * Get user by ID
+ * @param {string} userId - ID of an user
+ * @returns {Promise<User>} - Object with a particular user data
+ */
+const getById = async (userId) => repository.getById(userId);
 
+/**
+ * Create a new user
+ * @param {User} user - User data
+ * @returns {Promise<User>} - New user data
+ */
+const create = async (user) => repository.create(user.id, user);
+
+/**
+ * Update existing user or create new
+ * @param {string} userId - ID of an user
+ * @param {Partial<User>} data - User data for updating
+ * @returns {Promise<User>} - Updated user data
+ */
+const update = async (userId, data) => repository.update(userId, data);
+
+/**
+ * Remove an user
+ * @param {string} userId - ID of an user
+ * @returns {Promise<void>}
+ */
 const remove = async (userId) => {
   await repository.delete(userId);
 
