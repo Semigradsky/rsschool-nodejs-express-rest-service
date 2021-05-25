@@ -1,6 +1,28 @@
 const uuid = require('uuid').v4;
 
-class Board {
+/**
+ * A task
+ * @typedef {Object} Task
+ * @property {string} id - Task ID
+ * @property {string} title - Task title
+ * @property {number} order - Task order
+ * @property {string} description - Task description
+ * @property {string} boardId - Task board ID
+ * @property {string | null} columnId - Task column ID
+ * @property {string | null} userId - Task owner ID
+ */
+
+/** @module task.model */
+
+/**
+ * Class representing a task
+ */
+class Task {
+  /**
+   * Create an user
+   * @param {string} boardId - Task board ID
+   * @param {Task} param - Task data
+   */
   constructor(
     boardId,
     {
@@ -22,4 +44,4 @@ class Board {
   }
 }
 
-module.exports = Board;
+module.exports = Task;

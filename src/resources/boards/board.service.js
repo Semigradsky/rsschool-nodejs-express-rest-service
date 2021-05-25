@@ -1,21 +1,6 @@
 const repository = require('./board.memory.repository');
 const taskService = require('../tasks/task.service');
 
-/**
- * An board
- * @typedef {Object} Board
- * @property {string} id - Board ID
- * @property {string} title - Board title
- * @property {Column[]} columns - Board columns
- */
-
-/**
- * An board column
- * @typedef {Object} Column
- * @property {string} title - Board column title
- * @property {number} order - Board column order
- */
-
 /** @module board.service */
 
 /**
@@ -27,7 +12,7 @@ const getAll = async () => repository.getAll();
 /**
  * Get board by ID
  * @param {string} boardId - ID of a board
- * @returns {Promise<Board>} - Object with a particular board data
+ * @returns {Promise<Board | undefined>} - Object with a particular board data
  */
 const getById = async (boardId) => repository.getById(boardId);
 

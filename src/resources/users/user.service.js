@@ -2,15 +2,6 @@ const repository = require('./user.memory.repository');
 const boardService = require('../boards/board.service');
 const taskService = require('../tasks/task.service');
 
-/**
- * An user
- * @typedef {Object} User
- * @property {string} id - User ID
- * @property {string} name - User name
- * @property {string} login - User login
- * @property {string} password - User password
- */
-
 /** @module user.service */
 
 /**
@@ -22,7 +13,7 @@ const getAll = async () => repository.getAll();
 /**
  * Get user by ID
  * @param {string} userId - ID of an user
- * @returns {Promise<User>} - Object with a particular user data
+ * @returns {Promise<User | undefined>} - Object with a particular user data
  */
 const getById = async (userId) => repository.getById(userId);
 
