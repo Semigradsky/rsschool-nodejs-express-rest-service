@@ -1,10 +1,13 @@
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
+import { Router } from 'express';
+
+import User from './user.model';
+import * as usersService from './user.service';
+
+const router = Router();
 
 router
   .route('/')
-  .get(async (req, res) => {
+  .get(async (_req, res) => {
     const users = await usersService.getAll();
     res.json(users.map(User.toResponse));
   })
@@ -17,7 +20,7 @@ router
   .route('/:userId')
   .get(async (req, res) => {
     const { userId } = req.params;
-    const user = await usersService.getById(userId);
+    const user = await usersService.getById(userId!);
     if (!user) {
       res.status(404).json();
     } else {
@@ -26,12 +29,12 @@ router
   })
   .put(async (req, res) => {
     const { userId } = req.params;
-    const user = await usersService.update(userId, req.body);
+    const user = await usersService.update(userId!, req.body);
     res.json(User.toResponse(user));
   })
   .delete(async (req, res) => {
     const { userId } = req.params;
-    await usersService.remove(userId);
+    await usersService.remove(userId!);
     res.status(204).json();
   });
 
