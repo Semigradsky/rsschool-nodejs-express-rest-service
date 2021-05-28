@@ -6,6 +6,7 @@
     "jest": true,
     "node": true
   },
+  "parser":  "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
     "sourceType": "module",
@@ -20,6 +21,9 @@
   "settings": {
     "noInlineConfig": true
   },
+  "plugins": [
+    "eslint-plugin-tsdoc"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
@@ -32,6 +36,7 @@
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
-    "node/no-missing-import": "off"
+    "node/no-missing-import": "off",
+    "tsdoc/syntax": "warn"
   }
 }
