@@ -1,3 +1,6 @@
+/**
+ * Memory repository
+ */
 class MemoryRepository<K, V> {
   private _items: Map<K, V>;
 

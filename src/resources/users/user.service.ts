@@ -1,5 +1,5 @@
-import boardService from 'resources/boards/board.service';
-import taskService from 'resources/tasks/task.service';
+import * as boardService from 'resources/boards/board.service';
+import * as taskService from 'resources/tasks/task.service';
 
 import repository from './user.memory.repository';
 import { IUser } from './user.model';

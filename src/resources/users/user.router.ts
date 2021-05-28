@@ -38,4 +38,4 @@ router
     res.status(204).json();
   });
 
-module.exports = router;
+export default router;

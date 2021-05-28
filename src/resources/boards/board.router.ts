@@ -1,10 +1,13 @@
-const router = require('express').Router();
-const Board = require('./board.model');
-const boardsService = require('./board.service');
+import { Router } from 'express';
+
+import Board from './board.model';
+import * as boardsService from './board.service';
+
+const router = Router();
 
 router
   .route('/')
-  .get(async (req, res) => {
+  .get(async (_req, res) => {
     const boards = await boardsService.getAll();
     res.json(boards);
   })
@@ -17,7 +20,7 @@ router
   .route('/:boardId')
   .get(async (req, res) => {
     const { boardId } = req.params;
-    const board = await boardsService.getById(boardId);
+    const board = await boardsService.getById(boardId!);
     if (!board) {
       res.status(404).json();
     } else {
@@ -26,13 +29,13 @@ router
   })
   .put(async (req, res) => {
     const { boardId } = req.params;
-    const board = await boardsService.update(boardId, req.body);
+    const board = await boardsService.update(boardId!, req.body);
     res.json(board);
   })
   .delete(async (req, res) => {
     const { boardId } = req.params;
-    await boardsService.remove(boardId);
+    await boardsService.remove(boardId!);
     res.status(204).json();
   });
 
-module.exports = router;
+export default router;
