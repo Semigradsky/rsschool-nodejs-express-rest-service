@@ -3,7 +3,7 @@ import { log } from 'logger';
 import { finished } from 'stream';
 
 const loggingMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const { method, url, body, params } = req;
+  const { method, url, body, params, query } = req;
   const start = process.hrtime.bigint();
 
   next();
@@ -15,6 +15,7 @@ const loggingMiddleware = (req: Request, res: Response, next: NextFunction) => {
       method,
       url,
       params,
+      query,
       body,
       statusCode,
     });
