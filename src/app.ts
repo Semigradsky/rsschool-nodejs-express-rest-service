@@ -4,6 +4,7 @@ import path from 'path';
 import YAML from 'yamljs';
 
 import loggingMiddleware from 'middlewares/logging';
+import { errorLog } from 'logger';
 import userRouter from 'resources/users/user.router';
 import boardRouter from 'resources/boards/board.router';
 import taskRouter from 'resources/tasks/task.router';
@@ -28,5 +29,15 @@ app.use('/', (req, res, next) => {
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
+
+process.on('uncaughtException', (err) => {
+  errorLog(err.message, err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  promise.catch((error) => {
+    errorLog(error.message, { reason, error });
+  });
+});
 
 export default app;
