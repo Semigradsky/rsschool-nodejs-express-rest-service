@@ -4,6 +4,7 @@ import path from 'path';
 import YAML from 'yamljs';
 
 import loggingMiddleware from 'middlewares/logging';
+import errorHandlingMiddleware from 'middlewares/errorHandling';
 import { errorLog } from 'logger';
 import userRouter from 'resources/users/user.router';
 import boardRouter from 'resources/boards/board.router';
@@ -16,8 +17,6 @@ app.use(express.json());
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use(loggingMiddleware);
-
 app.use('/', (req, res, next) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
@@ -26,9 +25,13 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+app.use(loggingMiddleware);
+
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
+
+app.use(errorHandlingMiddleware);
 
 process.on('uncaughtException', (err) => {
   errorLog(err.message, err);
