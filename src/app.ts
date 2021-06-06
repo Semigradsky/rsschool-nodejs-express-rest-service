@@ -35,11 +35,13 @@ app.use(errorHandlingMiddleware);
 
 process.on('uncaughtException', (err) => {
   errorLog(err.message, err);
+  process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   promise.catch((error) => {
     errorLog(error.message, { reason, error });
+    process.exit(1);
   });
 });
 
