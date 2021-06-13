@@ -20,6 +20,7 @@ const logger = createLogger({
       level: 'error',
     }),
   ],
+  exitOnError: true,
 });
 
 export const log = (message: string, meta?: object): void => {
