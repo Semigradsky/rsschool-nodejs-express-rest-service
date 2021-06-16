@@ -1,4 +1,5 @@
 import { DB_HOST, POSTGRES_DB, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_USER } from 'common/config';
+import { InitMigration } from 'migrations/init';
 import User from 'resources/users/user.model';
 import { Connection, createConnection } from 'typeorm';
 
@@ -13,7 +14,8 @@ export const initializeDB = async () => {
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DB,
     entities: [User],
-    synchronize: true,
+    migrations: [InitMigration],
+    migrationsRun: true,
   })
   return connection
 }
