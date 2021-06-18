@@ -2,7 +2,7 @@ import { DB_HOST, POSTGRES_DB, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_USER }
 import Board from 'resources/boards/board.model';
 import BoardColumn from 'resources/boards/column.model';
 import Task from 'resources/tasks/task.model';
-// import { InitMigration } from 'migrations/init';
+import { InitMigration } from 'migrations/init';
 import User from 'resources/users/user.model';
 import { Connection, createConnection } from 'typeorm';
 
@@ -17,10 +17,10 @@ export const initializeDB = async () => {
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DB,
     entities: [User, Board, BoardColumn, Task],
-    // migrations: [InitMigration],
-    // migrationsRun: true,
-    synchronize: true,
+    migrations: [InitMigration],
+    migrationsRun: true,
   })
+
   return connection
 }
 
