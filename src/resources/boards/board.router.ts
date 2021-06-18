@@ -35,8 +35,8 @@ router
   }))
   .delete(wrapRoute(async (req, res) => {
     const { boardId } = req.params;
-    await boardsService.remove(boardId!);
-    res.status(204).json();
+    const removed = await boardsService.remove(boardId!);
+    res.status(removed ? 204 : 404).json();
   }));
 
 export default router;

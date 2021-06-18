@@ -1,4 +1,4 @@
-import repository from './task.memory.repository';
+import * as repository from './task.repository';
 import { ITask } from './task.model';
 
 /**
@@ -22,7 +22,7 @@ export const getById = (boardId: string, taskId: string): Promise<ITask | undefi
  * @param task - Task data
  * @returns New task data
  */
-export const create = (boardId: string, task: ITask): Promise<ITask> => repository.create(boardId, task.id, task);
+export const create = (task: ITask): Promise<ITask> => repository.create(task);
 
 /**
  * Update existing task or create new
@@ -36,7 +36,7 @@ export const update = (boardId: string, taskId: string, data: Partial<ITask>): P
 
 /**
  * Remove a task
- * @param boardId - ID of a board
  * @param taskId - ID of a task
+ * @returns User was removed
  */
-export const remove = (boardId: string, taskId: string): Promise<void> => repository.delete(boardId, taskId);
+export const remove = (taskId: string): Promise<boolean> => repository.remove(taskId);

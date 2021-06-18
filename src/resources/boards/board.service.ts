@@ -1,6 +1,4 @@
-import * as taskService from 'resources/tasks/task.service';
-
-import repository from './board.memory.repository';
+import * as repository from './board.repository';
 import { IBoard } from './board.model';
 
 /**
@@ -21,7 +19,7 @@ export const getById = async (boardId: string): Promise<IBoard | undefined> => r
  * @param board - Board data
  * @returns New board data
  */
-export const create = async (board: IBoard): Promise<IBoard> => repository.create(board.id, board);
+export const create = async (board: IBoard): Promise<IBoard> => repository.create(board);
 
 /**
  * Update existing board or create new
@@ -34,10 +32,6 @@ export const update = async (boardId: string, data: Partial<IBoard>): Promise<IB
 /**
  * Remove a board
  * @param boardId - ID of a board
+ * @returns User was removed
  */
-export const remove = async (boardId: string): Promise<void> => {
-  const tasks = await taskService.getAll(boardId);
-  await Promise.all(tasks.map((task) => taskService.remove(boardId, task.id)));
-
-  await repository.delete(boardId);
-};
+export const remove = async (boardId: string): Promise<boolean> => repository.remove(boardId);

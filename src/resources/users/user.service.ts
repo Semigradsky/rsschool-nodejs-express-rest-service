@@ -1,6 +1,3 @@
-// import * as boardService from 'resources/boards/board.service';
-// import * as taskService from 'resources/tasks/task.service';
-
 import * as repository from './user.repository';
 import { IUser } from './user.model';
 
@@ -37,24 +34,4 @@ export const update = async (userId: string, data: Partial<IUser>): Promise<IUse
  * @param userId - ID of an user
  * @returns User was removed
  */
-export const remove = async (userId: string): Promise<boolean> => {
-  const removed = await repository.remove(userId);
-  if (!removed) {
-    return false
-  }
-
-  // const boards = await boardService.getAll();
-  // const tasks = (
-  //   await Promise.all(boards.map((board) => taskService.getAll(board.id)))
-  // ).flat();
-
-  // const tasksForUpdate = tasks.filter((task) => task.userId === userId);
-
-  // await Promise.all(
-  //   tasksForUpdate.map((task) =>
-  //     taskService.update(task.boardId, task.id, { userId: null })
-  //   )
-  // );
-
-  return true
-};
+export const remove = async (userId: string): Promise<boolean> => repository.remove(userId);

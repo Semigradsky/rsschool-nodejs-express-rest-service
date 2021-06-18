@@ -3,24 +3,44 @@ import User, { IUser } from './user.model';
 
 const repository = getConnection()!.getRepository(User);
 
+/**
+ * Get all users
+ * @returns Array of all users
+ */
 export const getAll = async () => repository.find()
 
-export const getById = async (id: string) => {
-  const users = await repository.findByIds([id])
-  return users[0]!
+/**
+ * Get user by ID
+ * @param userId - ID of an user
+ * @returns Object with a particular user data
+ */
+export const getById = async (userId: string) => repository.findOne(userId)
+
+/**
+ * Create a new user
+ * @param user - User data
+ * @returns New user data
+ */
+export const create = async (user: IUser) => repository.save(user)
+
+/**
+ * Update existing user or create new
+ * @param userId - ID of an user
+ * @param data - User data for updating
+ * @returns Updated user data
+ */
+export const update = async (userId: string, data: Partial<IUser>) => {
+  await repository.update(userId, data)
+  const user = await getById(userId)
+  return user!
 }
 
-export const create = async (entity: IUser) => {
-  const users = await repository.save([entity])
-  return users[0]!
-}
-
-export const update = async (id: string, partialEntity: Partial<IUser>) => {
-  await repository.update(id, partialEntity)
-  return getById(id)
-}
-
-export const remove = async (id: string) => {
-  const res = await repository.delete(id)
+/**
+ * Remove an user
+ * @param userId - ID of an user
+ * @returns User was removed
+ */
+export const remove = async (userId: string) => {
+  const res = await repository.delete(userId)
   return !!res.affected
 }

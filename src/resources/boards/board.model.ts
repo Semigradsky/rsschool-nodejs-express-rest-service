@@ -1,4 +1,7 @@
 import { v4 as uuid } from 'uuid';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+// eslint-disable-next-line import/no-cycle
+import BoardColumn, { IColumn } from './column.model';
 
 export interface IBoard {
   id: string;
@@ -6,30 +9,35 @@ export interface IBoard {
   columns: IColumn[];
 }
 
-interface IColumn {
-  id: string;
-  title: string;
-  order: number;
-}
-
 /**
  * Class representing an board
  */
+@Entity()
 class Board implements IBoard {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ length: 255 })
   title: string;
 
-  columns: IColumn[];
+  @OneToMany(
+    () => BoardColumn,
+    column => column.board,
+    { onDelete: 'CASCADE', cascade: true, eager: true }
+  )
+  columns!: IColumn[];
 
   /**
-   * Create an user
+   * Create a board
    * @param param - Board data
    */
-  constructor({ id = uuid(), title, columns }: IBoard) {
+  constructor({ id = uuid(), title = '', columns }: Partial<IBoard> = {}) {
     this.id = id;
     this.title = title;
-    this.columns = columns;
+
+    if (columns) {
+      this.columns = columns
+    }
   }
 }
 
