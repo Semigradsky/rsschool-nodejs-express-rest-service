@@ -11,15 +11,16 @@ const logger = createLogger({
     }),
 
     new transports.File({
-      filename: 'debug.log',
+      filename: 'logs/debug.log',
     }),
 
     new transports.File({
-      filename: 'error.log',
+      filename: 'logs/error.log',
       format: format.json(),
       level: 'error',
     }),
   ],
+  exitOnError: true,
 });
 
 export const log = (message: string, meta?: object): void => {
