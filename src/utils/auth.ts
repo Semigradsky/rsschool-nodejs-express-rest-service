@@ -18,7 +18,7 @@ declare global{
 }
 
 export const verifySessionToken = async (sessionToken: string) => new Promise<JWTToken>((resolve, reject) => {
-  jwt.verify(sessionToken, SECRET!, (err, decoded) => {
+  jwt.verify(sessionToken.replace('Bearer ', ''), SECRET!, (err, decoded) => {
     if (err || !decoded) {
       return reject();
     }
@@ -27,4 +27,8 @@ export const verifySessionToken = async (sessionToken: string) => new Promise<JW
   });
 })
 
+export const createSessionToken = async (data: JWTToken) => jwt.sign(data, SECRET!, { expiresIn: 60 * 60 * 24 })
+
 export const createHashFromPassword = (password: string): string => bcrypt.hashSync(password, 10)
+
+export const comparePassword = async (password: string, passwordHash: string): Promise<boolean> => bcrypt.compare(password, passwordHash)

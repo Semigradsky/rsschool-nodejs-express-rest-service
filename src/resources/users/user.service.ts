@@ -1,3 +1,4 @@
+import { createHashFromPassword } from 'utils/auth';
 import * as repository from './user.repository';
 import { IUser } from './user.model';
 
@@ -34,7 +35,15 @@ export const create = async (user: IUser): Promise<IUser> => repository.create(u
  * @param data - User data for updating
  * @returns Updated user data
  */
-export const update = async (userId: string, data: Partial<IUser>): Promise<IUser> => repository.update(userId, data);
+export const update = async (userId: string, data: Partial<IUser & { password?: string }>): Promise<IUser> => {
+  const { password, ...userData } = data;
+
+  if (password) {
+    userData.passwordHash = createHashFromPassword(password);
+  }
+
+  return repository.update(userId, userData);
+}
 
 /**
  * Remove an user
