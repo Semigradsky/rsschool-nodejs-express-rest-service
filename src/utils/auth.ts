@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { SECRET } from 'common/config';
+import bcrypt from 'bcryptjs'
 
 import { IUser } from 'resources/users/user.model';
 
@@ -25,3 +26,5 @@ export const verifySessionToken = async (sessionToken: string) => new Promise<JW
     return resolve(decoded as JWTToken);
   });
 })
+
+export const createHashFromPassword = (password: string): string => bcrypt.hashSync(password, 10)

@@ -15,6 +15,13 @@ export const getAll = async (): Promise<IUser[]> => repository.getAll();
 export const getById = async (userId: string): Promise<IUser | undefined> => repository.getById(userId);
 
 /**
+ * Get user by login
+ * @param login - login of an user
+ * @returns Object with a particular user data
+ */
+ export const getByLogin = async (login: string): Promise<IUser | undefined> => repository.getByLogin(login);
+
+/**
  * Create a new user
  * @param user - User data
  * @returns New user data

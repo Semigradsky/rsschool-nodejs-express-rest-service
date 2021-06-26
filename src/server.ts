@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import { log, errorLog } from 'logger';
-import { initializeDB } from 'db';
+import { createAdmin, initializeDB } from 'db';
 import { PORT } from './common/config';
 
 (async () => {
   try {
     await initializeDB()
+    await createAdmin()
   } catch (err) {
     errorLog('Failed to connect to DB!', err)
     return
