@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export interface IUser {
   id: string;
@@ -12,13 +13,18 @@ type IUserForReponse = Omit<IUser, 'password'>
 /**
  * Class representing an user
  */
+@Entity()
 class User implements IUser {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ length: 100 })
   name: string;
 
+  @Column({ length: 100 })
   login: string;
 
+  @Column({ length: 100 })
   password: string;
 
   constructor({

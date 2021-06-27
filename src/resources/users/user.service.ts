@@ -1,7 +1,4 @@
-import * as boardService from 'resources/boards/board.service';
-import * as taskService from 'resources/tasks/task.service';
-
-import repository from './user.memory.repository';
+import * as repository from './user.repository';
 import { IUser } from './user.model';
 
 /**
@@ -22,7 +19,7 @@ export const getById = async (userId: string): Promise<IUser | undefined> => rep
  * @param user - User data
  * @returns New user data
  */
-export const create = async (user: IUser): Promise<IUser> => repository.create(user.id, user);
+export const create = async (user: IUser): Promise<IUser> => repository.create(user);
 
 /**
  * Update existing user or create new
@@ -35,20 +32,6 @@ export const update = async (userId: string, data: Partial<IUser>): Promise<IUse
 /**
  * Remove an user
  * @param userId - ID of an user
+ * @returns User was removed
  */
-export const remove = async (userId: string): Promise<void> => {
-  await repository.delete(userId);
-
-  const boards = await boardService.getAll();
-  const tasks = (
-    await Promise.all(boards.map((board) => taskService.getAll(board.id)))
-  ).flat();
-
-  const tasksForUpdate = tasks.filter((task) => task.userId === userId);
-
-  await Promise.all(
-    tasksForUpdate.map((task) =>
-      taskService.update(task.boardId, task.id, { userId: null })
-    )
-  );
-};
+export const remove = async (userId: string): Promise<boolean> => repository.remove(userId);

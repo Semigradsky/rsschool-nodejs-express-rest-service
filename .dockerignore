@@ -1,6 +1,5 @@
 node_modules
 docs
-test
 .editorconfig
 .eslintrc.json
 .gitignore

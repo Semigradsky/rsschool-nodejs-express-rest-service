@@ -15,10 +15,7 @@ router
   }))
   .post(wrapRoute(async (req, res) => {
     const { boardId } = req.params;
-    const task = await tasksService.create(
-      boardId!,
-      new Task(boardId!, req.body)
-    );
+    const task = await tasksService.create(new Task(boardId!, req.body));
     res.status(201).json(task);
   }));
 
@@ -39,9 +36,9 @@ router
     res.json(task);
   }))
   .delete(wrapRoute(async (req, res) => {
-    const { taskId, boardId } = req.params;
-    await tasksService.remove(boardId!, taskId!);
-    res.status(204).json();
+    const { taskId } = req.params;
+    const removed = await tasksService.remove(taskId!);
+    res.status(removed ? 204 : 404).json();
   }));
 
 export default router;
