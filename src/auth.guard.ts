@@ -8,7 +8,7 @@ import { UsersService } from './users/users.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    @Inject(UsersService) private readonly userService: UsersService
+    @Inject(UsersService) private readonly usersService: UsersService
   ) {}
 
   canActivate(
@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const token = await verifySessionToken(sessionToken);
-      const user = await this.userService.findOne(token.userId);
+      const user = await this.usersService.findOne(token.userId);
 
       return !!user
     } catch (error) {

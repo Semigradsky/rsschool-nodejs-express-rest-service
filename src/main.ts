@@ -1,5 +1,8 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
+import path from 'path';
+import YAML from 'yamljs';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -7,14 +10,10 @@ async function bootstrap() {
     logger: console,
   });
 
-  const options = new DocumentBuilder()
-    .setTitle('Trello Service')
-    .setDescription('Let\'s try to create a competitor for Trello!')
-    .setVersion('1.0.0')
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('/docs', app, document);
+  app.useGlobalPipes(new ValidationPipe());
+
+  const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+  SwaggerModule.setup('/docs', app, swaggerDocument);
 
   await app.listen(4000);
 }
