@@ -58,6 +58,10 @@ class InitMigration1623842272887 implements MigrationInterface {
       FOREIGN KEY ("userId") REFERENCES "user"("id")
       ON DELETE SET NULL ON UPDATE NO ACTION
     `);
+
+    await queryRunner.query(`INSERT INTO "user" ("name", "login", "passwordHash")
+      VALUES ('admin', 'admin', '$2a$10$A4C3NSBaY92tdbQ5Ha9jeOIl5bTpOxZyPlpu9xNjUwJtXI1hTDmRG')
+    `);
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
