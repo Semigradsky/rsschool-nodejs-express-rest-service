@@ -1,4 +1,6 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Board } from 'src/boards/board.entity';
+import { BoardColumn } from 'src/boards/column.entity';
 import { DB_HOST, POSTGRES_DB, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_USER } from 'src/common/config';
 import { User } from 'src/users/user.entity';
 import { InitMigration } from './migrations/init';
@@ -10,7 +12,7 @@ export const typeOrmModule = TypeOrmModule.forRoot({
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  entities: [User],
+  entities: [User, Board, BoardColumn],
   migrations: [InitMigration],
   migrationsRun: true,
 })

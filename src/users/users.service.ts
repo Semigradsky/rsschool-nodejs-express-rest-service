@@ -40,8 +40,8 @@ export class UsersService {
    * @param userId - ID of an user
    * @returns Object with a particular user data
    */
-  async findOne(id: string): Promise<IUser | undefined> {
-    return this.usersRepository.findOne(id);
+  async findOne(userId: string): Promise<IUser | undefined> {
+    return this.usersRepository.findOne(userId);
   }
 
   /**
@@ -59,9 +59,9 @@ export class UsersService {
    * @param updateUserDto - User data for updating
    * @returns Updated user data
    */
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<IUser> {
-    await this.usersRepository.update(id, updateUserDto)
-    const user = await this.findOne(id)
+  async update(userId: string, updateUserDto: UpdateUserDto): Promise<IUser> {
+    await this.usersRepository.update(userId, updateUserDto)
+    const user = await this.findOne(userId)
     return user!
   }
 
@@ -70,7 +70,7 @@ export class UsersService {
    * @param userId - ID of an user
    * @returns User was removed
    */
-  async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+  async remove(userId: string): Promise<void> {
+    await this.usersRepository.delete(userId);
   }
 }
