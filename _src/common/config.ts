@@ -20,5 +20,3 @@ export const {
 export const POSTGRES_PORT = Number(process.env['POSTGRES_PORT'])
 
 export const AUTH_MODE = process.env['AUTH_MODE'] === 'true';
-
-export const USE_FASTIFY = process.env['USE_FASTIFY'] === 'true';
