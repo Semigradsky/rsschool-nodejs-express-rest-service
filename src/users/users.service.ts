@@ -17,7 +17,7 @@ export class UsersService {
    * @param createUserDto - User data
    * @returns New user data
    */
-  create(createUserDto: CreateUserDto): Promise<User> {
+  create(createUserDto: CreateUserDto): Promise<IUser> {
     const user = new User({
       login: createUserDto.login,
       name: createUserDto.name,

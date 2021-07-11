@@ -17,7 +17,7 @@ export class BoardsService {
    * @param createBoardDto - Board data
    * @returns New board data
    */
-  create(createBoardDto: CreateBoardDto): Promise<Board> {
+  create(createBoardDto: CreateBoardDto): Promise<IBoard> {
     const user = new Board({
       title: createBoardDto.title,
       columns: createBoardDto.columns,

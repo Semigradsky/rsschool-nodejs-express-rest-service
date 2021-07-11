@@ -12,8 +12,8 @@ export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateBoardDto): Promise<IBoard> {
-    return this.boardsService.create(createUserDto);
+  create(@Body() createBoardDto: CreateBoardDto): Promise<IBoard> {
+    return this.boardsService.create(createBoardDto);
   }
 
   @Get()
@@ -27,8 +27,8 @@ export class BoardsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateBoardDto): Promise<IBoard> {
-    return this.boardsService.update(id, updateUserDto);
+  update(@Param('id') id: string, @Body() updateBoardDto: UpdateBoardDto): Promise<IBoard> {
+    return this.boardsService.update(id, updateBoardDto);
   }
 
   @Delete(':id')
