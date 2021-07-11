@@ -14,6 +14,7 @@ export const {
   POSTGRES_USER,
   POSTGRES_DB,
   DB_HOST,
+  SECRET,
 } = process.env;
 
 export const POSTGRES_PORT = Number(process.env['POSTGRES_PORT'])

@@ -5,8 +5,11 @@ import Task from 'resources/tasks/task.model';
 import { InitMigration } from 'migrations/init';
 import User from 'resources/users/user.model';
 import { Connection, createConnection } from 'typeorm';
+import * as usersService from 'resources/users/user.service';
 
 let connection: Connection | null = null
+
+export const getConnection = () => connection
 
 export const initializeDB = async () => {
   connection = await createConnection({
@@ -24,4 +27,14 @@ export const initializeDB = async () => {
   return connection
 }
 
-export const getConnection = () => connection
+export const createAdmin = async () => {
+  const admin = await usersService.getByLogin('admin')
+
+  if (!admin) {
+    await usersService.create(new User({
+      name: 'admin',
+      login: 'admin',
+      password: 'admin',
+    }))
+  }
+}

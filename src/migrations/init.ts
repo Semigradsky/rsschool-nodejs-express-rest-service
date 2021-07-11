@@ -7,7 +7,7 @@ class InitMigration1623842272887 implements MigrationInterface {
       "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
       "name" VARCHAR(100) NOT NULL,
       "login" VARCHAR(100) NOT NULL,
-      "password" VARCHAR(100) NOT NULL,
+      "passwordHash" VARCHAR(100) NOT NULL,
       CONSTRAINT "PK_user" PRIMARY KEY ("id")
     )`);
 

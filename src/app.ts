@@ -9,6 +9,8 @@ import { errorLog } from 'logger';
 import userRouter from 'resources/users/user.router';
 import boardRouter from 'resources/boards/board.router';
 import taskRouter from 'resources/tasks/task.router';
+import loginRouter from 'resources/login/login.router';
+import validateSession from 'middlewares/validateSession';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -26,6 +28,10 @@ app.use('/', (req, res, next) => {
 });
 
 app.use(loggingMiddleware);
+
+app.use('/login', loginRouter);
+
+app.use(validateSession);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
