@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { createHashFromPassword } from 'src/utils/auth';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,7 +18,7 @@ export class UsersService {
    * @param createUserDto - User data
    * @returns New user data
    */
-  create(createUserDto: CreateUserDto): Promise<IUser> {
+  async create(createUserDto: CreateUserDto): Promise<IUser> {
     const user = new User({
       login: createUserDto.login,
       name: createUserDto.name,
@@ -60,7 +61,13 @@ export class UsersService {
    * @returns Updated user data
    */
   async update(userId: string, updateUserDto: UpdateUserDto): Promise<IUser> {
-    await this.usersRepository.update(userId, updateUserDto)
+    const { password, ...userData }: Partial<IUser & { password: string }> = updateUserDto;
+
+    if (password) {
+      userData.passwordHash = createHashFromPassword(password);
+    }
+
+    await this.usersRepository.update(userId, userData)
     const user = await this.findOne(userId)
     return user!
   }
@@ -70,7 +77,8 @@ export class UsersService {
    * @param userId - ID of an user
    * @returns User was removed
    */
-  async remove(userId: string): Promise<void> {
-    await this.usersRepository.delete(userId);
+  async remove(userId: string): Promise<boolean> {
+    const res = await this.usersRepository.delete(userId)
+    return !!res.affected
   }
 }

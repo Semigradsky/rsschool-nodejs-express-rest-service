@@ -18,7 +18,7 @@ export class TasksService {
    * @param createTaskDto - Task data
    * @returns New task data
    */
-  create(boardId: string, createTaskDto: CreateTaskDto): Promise<ITask> {
+  async create(boardId: string, createTaskDto: CreateTaskDto): Promise<ITask> {
     const user = new Task(boardId, createTaskDto);
     return this.tasksRepository.save(user);
   }
@@ -58,9 +58,10 @@ export class TasksService {
   /**
    * Remove a task
    * @param taskId - ID of a task
-   * @returns User was removed
+   * @returns Task was removed
    */
-  async remove(taskId: string): Promise<void> {
-    await this.tasksRepository.delete(taskId);
+  async remove(taskId: string): Promise<boolean> {
+    const res = await this.tasksRepository.delete(taskId);
+    return !!res.affected
   }
 }

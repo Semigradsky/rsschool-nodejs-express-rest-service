@@ -1,6 +1,7 @@
-import { UseGuards , Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { UseGuards , Body, Controller, Delete, Get, Param, Post, Put, HttpException, HttpStatus, UseInterceptors } from '@nestjs/common';
 
 import { AuthGuard } from 'src/auth.guard';
+import { NotFoundInterceptor } from 'src/not-found.interceptor';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { IBoard } from './board.entity';
@@ -22,6 +23,7 @@ export class BoardsController {
   }
 
   @Get(':id')
+  @UseInterceptors(new NotFoundInterceptor('Board not found'))
   findOne(@Param('id') id: string): Promise<IBoard | undefined> {
     return this.boardsService.findOne(id);
   }
@@ -32,7 +34,10 @@ export class BoardsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.boardsService.remove(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    const removed = await this.boardsService.remove(id);
+    if (!removed) {
+      throw new HttpException('Board not found', HttpStatus.NOT_FOUND)
+    }
   }
 }

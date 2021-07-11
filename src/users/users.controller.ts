@@ -1,6 +1,7 @@
-import { UseGuards , Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { UseGuards , Body, Controller, Delete, Get, Param, Post, Put, HttpException, HttpStatus, UseInterceptors } from '@nestjs/common';
 
 import { AuthGuard } from 'src/auth.guard';
+import { NotFoundInterceptor } from 'src/not-found.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IUser } from './user.entity';
@@ -22,6 +23,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseInterceptors(new NotFoundInterceptor('User not found'))
   findOne(@Param('id') id: string): Promise<IUser | undefined> {
     return this.usersService.findOne(id);
   }
@@ -32,7 +34,10 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    const removed = await this.usersService.remove(id);
+    if (!removed) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+    }
   }
 }

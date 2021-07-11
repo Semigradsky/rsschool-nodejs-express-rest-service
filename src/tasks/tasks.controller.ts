@@ -1,6 +1,7 @@
-import { UseGuards , Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { UseGuards , Body, Controller, Delete, Get, Param, Post, Put, HttpException, HttpStatus, UseInterceptors } from '@nestjs/common';
 
 import { AuthGuard } from 'src/auth.guard';
+import { NotFoundInterceptor } from 'src/not-found.interceptor';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { ITask } from './task.entity';
@@ -22,6 +23,7 @@ export class TasksController {
   }
 
   @Get(':id')
+  @UseInterceptors(new NotFoundInterceptor('Task not found'))
   findOne(@Param('boardId') boardId: string, @Param('id') id: string): Promise<ITask | undefined> {
     return this.tasksService.findOne(boardId, id);
   }
@@ -32,7 +34,10 @@ export class TasksController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.tasksService.remove(id);
+  async remove(@Param('boardId') _boardId: string, @Param('id') id: string): Promise<void> {
+    const removed = await this.tasksService.remove(id);
+    if (!removed) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND)
+    }
   }
 }

@@ -17,7 +17,7 @@ export class BoardsService {
    * @param createBoardDto - Board data
    * @returns New board data
    */
-  create(createBoardDto: CreateBoardDto): Promise<IBoard> {
+  async create(createBoardDto: CreateBoardDto): Promise<IBoard> {
     const user = new Board({
       title: createBoardDto.title,
       columns: createBoardDto.columns,
@@ -50,7 +50,8 @@ export class BoardsService {
    * @returns Updated board data
    */
   async update(boardId: string, updateBoardDto: UpdateBoardDto): Promise<IBoard> {
-    await this.boardsRepository.update(boardId, updateBoardDto)
+    const { columns, ...data } = updateBoardDto
+    await this.boardsRepository.update(boardId, data)
     const board = await this.findOne(boardId)
     return board!
   }
@@ -60,7 +61,8 @@ export class BoardsService {
    * @param boardId - ID of a board
    * @returns Board was removed
    */
-  async remove(boardId: string): Promise<void> {
-    await this.boardsRepository.delete(boardId);
+  async remove(boardId: string): Promise<boolean> {
+    const res = await this.boardsRepository.delete(boardId);
+    return !!res.affected
   }
 }
